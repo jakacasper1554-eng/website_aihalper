@@ -1,0 +1,1657 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Helper - Tools Akademik</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Playfair Display', serif;
+        }
+
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --accent: #4cc9f0;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4bb543;
+            --warning: #ffcc00;
+            --danger: #dc3545;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: var(--light);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* Digital Background */
+        .digital-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            background: radial-gradient(circle at 20% 50%, rgba(67, 97, 238, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(76, 201, 240, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 80%, rgba(58, 12, 163, 0.1) 0%, transparent 50%);
+        }
+
+        .matrix-code {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.03;
+            background-image: 
+                linear-gradient(90deg, transparent 79px, #abced4 79px, #abced4 81px, transparent 81px),
+                linear-gradient(#eee .1em, transparent .1em);
+            background-size: 100% 1.2em;
+        }
+
+        .circuit-lines {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(90deg, transparent 98%, rgba(76, 201, 240, 0.1) 100%),
+                linear-gradient(0deg, transparent 98%, rgba(76, 201, 240, 0.1) 100%);
+            background-size: 30px 30px;
+        }
+
+        .binary-code {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            opacity: 0.05;
+        }
+
+        .binary-digit {
+            position: absolute;
+            color: #4cc9f0;
+            font-family: monospace;
+            font-size: 14px;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh);
+            }
+        }
+
+        .hologram-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(76, 201, 240, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(76, 201, 240, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            transform: perspective(500px) rotateX(60deg);
+            transform-origin: center top;
+        }
+
+        .glowing-orbs {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0.15;
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        .orb-1 {
+            top: 20%;
+            left: 10%;
+            width: 300px;
+            height: 300px;
+            background: var(--primary);
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            top: 60%;
+            right: 15%;
+            width: 250px;
+            height: 250px;
+            background: var(--accent);
+            animation-delay: -2s;
+        }
+
+        .orb-3 {
+            bottom: 10%;
+            left: 20%;
+            width: 200px;
+            height: 200px;
+            background: var(--secondary);
+            animation-delay: -4s;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 0.15;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 0.25;
+            }
+        }
+
+        .scan-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to right, transparent, rgba(76, 201, 240, 0.5), transparent);
+            animation: scan 3s linear infinite;
+            box-shadow: 0 0 10px rgba(76, 201, 240, 0.5);
+        }
+
+        @keyframes scan {
+            0% {
+                top: 0%;
+            }
+            100% {
+                top: 100%;
+            }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Warning Page Styles */
+        .warning-page {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(15, 15, 35, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            margin: 20px;
+            animation: fadeIn 1s ease-in;
+            border: 1px solid rgba(76, 201, 240, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .warning-icon {
+            font-size: 5rem;
+            color: var(--warning);
+            margin-bottom: 30px;
+            animation: bounce 2s infinite;
+            text-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        .warning-title {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 25px;
+            text-shadow: 0 0 10px rgba(76, 201, 240, 0.3);
+            font-weight: 700;
+        }
+
+        .warning-message {
+            font-size: 1.2rem;
+            line-height: 1.7;
+            max-width: 600px;
+            margin-bottom: 35px;
+            color: var(--light);
+        }
+
+        .auto-redirect {
+            font-size: 1.1rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .countdown {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--accent);
+            margin-bottom: 25px;
+            text-shadow: 0 0 10px rgba(76, 201, 240, 0.5);
+        }
+
+        .btn {
+            padding: 15px 35px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+            position: relative;
+            overflow: hidden;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .btn:hover {
+            background: var(--secondary);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(67, 97, 238, 0.4);
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .btn:hover::after {
+            left: 100%;
+        }
+
+        /* Main Page Styles */
+        .main-page {
+            display: none;
+            flex-direction: column;
+            min-height: 100vh;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        header {
+            background: rgba(15, 15, 35, 0.9);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+            text-align: center;
+            border: 1px solid rgba(76, 201, 240, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .logo i {
+            font-size: 2.2rem;
+            color: var(--accent);
+            text-shadow: 0 0 10px rgba(76, 201, 240, 0.5);
+        }
+
+        .logo h1 {
+            font-size: 2.4rem;
+            color: var(--accent);
+            text-shadow: 0 0 10px rgba(76, 201, 240, 0.3);
+            font-weight: 700;
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            color: var(--light);
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+
+        .reminder-banner {
+            background: linear-gradient(to right, rgba(255, 204, 0, 0.2), rgba(255, 221, 0, 0.2));
+            color: var(--light);
+            padding: 18px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            box-shadow: 0 4px 10px rgba(255, 204, 0, 0.2);
+            border: 1px solid rgba(255, 204, 0, 0.3);
+            backdrop-filter: blur(5px);
+        }
+
+        .reminder-banner i {
+            font-size: 1.6rem;
+            color: var(--warning);
+        }
+
+        .reminder-banner p {
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        /* Ethics Section */
+        .ethics-section {
+            background: rgba(15, 15, 35, 0.9);
+            border-radius: 15px;
+            padding: 35px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(76, 201, 240, 0.2);
+        }
+
+        .ethics-title {
+            font-size: 1.9rem;
+            color: var(--accent);
+            margin-bottom: 25px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            text-shadow: 0 0 10px rgba(76, 201, 240, 0.3);
+            font-weight: 700;
+        }
+
+        .ethics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        .ethics-card {
+            background: rgba(25, 25, 45, 0.8);
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .ethics-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(67, 97, 238, 0.3);
+            border-left: 4px solid var(--accent);
+        }
+
+        .ethics-card h3 {
+            color: var(--accent);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            line-height: 1.4;
+        }
+
+        .ethics-card p {
+            color: var(--light);
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+
+        /* UPI Guidelines Specific Styles */
+        .upi-intro {
+            font-size: 1.15rem;
+            line-height: 1.7;
+            margin-bottom: 30px;
+            text-align: center;
+            color: var(--light);
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 20px;
+            background: rgba(25, 25, 45, 0.6);
+            border-radius: 12px;
+            border-left: 3px solid var(--primary);
+        }
+
+        .upi-note {
+            margin-top: 30px;
+            padding: 22px;
+            background: rgba(255, 204, 0, 0.15);
+            border-radius: 12px;
+            border-left: 4px solid var(--warning);
+            text-align: center;
+            font-weight: 600;
+            color: var(--light);
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        /* Grid khusus untuk aturan 7 dan 8 di tengah */
+        .ethics-grid-center {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            max-width: 750px;
+            margin: 40px auto 25px auto; /* Ditambah margin atas untuk turun sedikit */
+            justify-content: center;
+        }
+
+        /* Regulasi Indonesia Section */
+        .regulation-section {
+            background: rgba(15, 15, 35, 0.9);
+            border-radius: 15px;
+            padding: 35px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(76, 201, 240, 0.2);
+        }
+
+        .regulation-intro {
+            font-size: 1.15rem;
+            line-height: 1.7;
+            margin-bottom: 30px;
+            text-align: center;
+            color: var(--light);
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 20px;
+            background: rgba(25, 25, 45, 0.6);
+            border-radius: 12px;
+            border-left: 3px solid var(--primary);
+        }
+
+        .regulation-category {
+            margin-bottom: 35px;
+        }
+
+        .regulation-category h3 {
+            font-size: 1.5rem;
+            color: var(--accent);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+        }
+
+        .regulation-item {
+            background: rgba(25, 25, 45, 0.8);
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .regulation-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.2);
+        }
+
+        .regulation-item h4 {
+            color: var(--accent);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .regulation-details {
+            margin-bottom: 15px;
+        }
+
+        .regulation-details p {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        .regulation-source {
+            font-style: italic;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.95rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 10px;
+        }
+
+        .regulation-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .regulation-list li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .regulation-list li:before {
+            content: "•";
+            color: var(--accent);
+            position: absolute;
+            left: 0;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 35px;
+        }
+
+        .tool-card {
+            background: rgba(15, 15, 35, 0.9);
+            border-radius: 15px;
+            padding: 28px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            cursor: pointer;
+            border: 1px solid rgba(76, 201, 240, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .tool-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 25px rgba(67, 97, 238, 0.3);
+            border: 1px solid rgba(76, 201, 240, 0.5);
+        }
+
+        .tool-icon {
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 18px;
+            font-size: 1.9rem;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tool-icon::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(to bottom right, rgba(255,255,255,0.3), rgba(255,255,255,0.1));
+            transform: rotate(45deg);
+            transition: 0.5s;
+        }
+
+        .tool-card:hover .tool-icon::after {
+            transform: rotate(45deg) translate(50%, 50%);
+        }
+
+        .tool-card h3 {
+            font-size: 1.45rem;
+            margin-bottom: 12px;
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .tool-card p {
+            color: var(--light);
+            opacity: 0.9;
+            line-height: 1.6;
+            margin-bottom: 18px;
+            font-size: 1rem;
+        }
+
+        .tool-link {
+            margin-top: auto;
+            color: var(--primary);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            font-size: 1.05rem;
+        }
+
+        .tool-card:hover .tool-link {
+            color: var(--accent);
+        }
+
+        footer {
+            margin-top: auto;
+            text-align: center;
+            padding: 25px;
+            color: var(--light);
+            font-size: 1rem;
+            background: rgba(15, 15, 35, 0.7);
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+
+        /* Timer Styles */
+        .timer-container {
+            background: rgba(15, 15, 35, 0.9);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            margin-bottom: 35px;
+            text-align: center;
+            border: 1px solid rgba(76, 201, 240, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .timer-container h2 {
+            font-size: 1.8rem;
+            color: var(--accent);
+            margin-bottom: 15px;
+        }
+
+        .timer-display {
+            font-size: 2.8rem;
+            font-weight: bold;
+            color: var(--accent);
+            margin: 20px 0;
+            text-shadow: 0 0 10px rgba(76, 201, 240, 0.5);
+            font-family: 'Playfair Display', serif;
+        }
+
+        .timer-progress {
+            width: 100%;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+
+        .timer-progress-bar {
+            height: 100%;
+            background: linear-gradient(to right, var(--success), var(--accent));
+            width: 100%;
+            transition: width 1s linear;
+            box-shadow: 0 0 10px rgba(76, 201, 240, 0.5);
+        }
+
+        .timer-info {
+            margin-top: 15px;
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.5;
+        }
+
+        /* Exit Overlay */
+        .exit-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .exit-message {
+            background: rgba(15, 15, 35, 0.95);
+            padding: 45px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 550px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(76, 201, 240, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .exit-icon {
+            font-size: 4.5rem;
+            color: var(--warning);
+            margin-bottom: 25px;
+            text-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
+        }
+
+        .exit-title {
+            font-size: 2.2rem;
+            color: var(--accent);
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(76, 201, 240, 0.3);
+            font-weight: 700;
+        }
+
+        .exit-text {
+            font-size: 1.2rem;
+            line-height: 1.7;
+            margin-bottom: 30px;
+            color: var(--light);
+        }
+
+        .exit-countdown {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--accent);
+            margin-bottom: 25px;
+            text-shadow: 0 0 10px rgba(76, 201, 240, 0.5);
+        }
+
+        /* Illustration Credit */
+        .illustration-credit {
+            margin-top: 30px;
+            padding: 30px;
+            background: rgba(15, 15, 35, 0.7);
+            border-radius: 15px;
+            text-align: center;
+            color: white;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(76, 201, 240, 0.2);
+        }
+
+        .illustration-credit h3 {
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            color: var(--accent);
+        }
+
+        .creators {
+            display: flex;
+            justify-content: space-between; /* Diubah dari center ke space-between */
+            flex-wrap: wrap;
+            gap: 18px;
+            margin-top: 25px;
+        }
+
+        .creator {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            padding: 18px 22px;
+            background: rgba(25, 25, 45, 0.8);
+            border-radius: 15px;
+            min-width: 150px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+            backdrop-filter: blur(5px);
+            flex: 1; /* Membuat semua creator memiliki lebar yang sama */
+            max-width: 180px; /* Maksimal lebar */
+        }
+
+        .creator:hover {
+            transform: translateY(-5px);
+            background: rgba(35, 35, 65, 0.9);
+            border-color: var(--primary);
+            box-shadow: 0 8px 20px rgba(67, 97, 238, 0.3);
+        }
+
+        .creator-icon {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: white;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .creator:hover .creator-icon {
+            background: var(--accent);
+            transform: scale(1.1);
+            box-shadow: 0 0 10px rgba(76, 201, 240, 0.5);
+        }
+
+        .creator-name {
+            font-size: 1rem;
+            font-weight: 600;
+            text-align: center;
+            padding: 10px 14px;
+            background: rgba(35, 35, 65, 0.8);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .creator:hover .creator-name {
+            background: var(--primary);
+            color: white;
+        }
+
+        .click-hint {
+            font-size: 0.85rem;
+            opacity: 0.8;
+            margin-top: 8px;
+        }
+
+        /* Photo Modal */
+        .photo-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .modal-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+            text-align: center;
+        }
+
+        .modal-photo {
+            max-width: 100%;
+            max-height: 80vh;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(76, 201, 240, 0.3);
+        }
+
+        .modal-name {
+            color: white;
+            font-size: 2rem;
+            margin-top: 25px;
+            font-weight: 600;
+            text-shadow: 0 0 10px rgba(76, 201, 240, 0.5);
+        }
+
+        .modal-role {
+            color: var(--accent);
+            font-size: 1.2rem;
+            margin-top: 10px;
+        }
+
+        .modal-bio {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.05rem;
+            margin-top: 18px;
+            max-width: 450px;
+            line-height: 1.6;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: -60px;
+            right: 0;
+            color: white;
+            font-size: 2.2rem;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.2);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .close-modal:hover {
+            background: var(--primary);
+            transform: rotate(90deg);
+        }
+
+        /* Gamma Logo Style */
+        .gamma-icon {
+            font-weight: bold;
+            font-size: 2.2rem;
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .warning-title {
+                font-size: 2.2rem;
+            }
+            
+            .warning-message {
+                font-size: 1.1rem;
+            }
+            
+            .tools-grid {
+                grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            }
+            
+            .timer-display {
+                font-size: 2.4rem;
+            }
+            
+            .exit-message {
+                margin: 20px;
+                padding: 35px;
+            }
+            
+            .exit-title {
+                font-size: 1.9rem;
+            }
+            
+            .creators {
+                gap: 15px;
+                justify-content: center; /* Di mobile kembali ke center */
+            }
+            
+            .creator {
+                min-width: 130px;
+                padding: 15px 18px;
+                max-width: 140px;
+            }
+
+            .ethics-grid,
+            .ethics-grid-center {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .warning-page {
+                margin: 15px;
+                padding: 30px 15px;
+            }
+            
+            .warning-title {
+                font-size: 2rem;
+            }
+            
+            .warning-message {
+                font-size: 1.05rem;
+            }
+            
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .creators {
+                gap: 12px;
+                justify-content: center;
+            }
+            
+            .creator {
+                min-width: 120px;
+                padding: 12px 15px;
+                max-width: 130px;
+            }
+            
+            .creator-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+
+            .ethics-section {
+                padding: 25px 20px;
+            }
+
+            .ethics-title {
+                font-size: 1.7rem;
+            }
+
+            .upi-intro {
+                font-size: 1.05rem;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Digital Background -->
+    <div class="digital-background">
+        <div class="matrix-code"></div>
+        <div class="circuit-lines"></div>
+        <div class="binary-code" id="binaryCode"></div>
+        <div class="hologram-grid"></div>
+        <div class="glowing-orbs">
+            <div class="orb orb-1"></div>
+            <div class="orb orb-2"></div>
+            <div class="orb orb-3"></div>
+        </div>
+        <div class="scan-line"></div>
+    </div>
+	
+    <!-- Warning Page -->
+    <div class="container">
+        <div class="warning-page" id="warningPage">
+            <div class="warning-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <h1 class="warning-title">Peringatan Penting</h1>
+            <p class="warning-message">
+                "AI memang membantu kita mengerjakan tugas. Tapi, kalau terlalu sering digunakan, kita jadi malas berpikir kritis. Ingatlah: jangan sampai kemudahan ini membuat kita jadi bodoh. Gunakanlah AI secukupnya, dan tetap berpikir dengan kepala sendiri."
+            </p>
+            <div class="auto-redirect">Halaman akan otomatis pindah dalam:</div>
+            <div class="countdown" id="countdown">60</div>
+            <button class="btn" id="skipBtn">
+                Lewati & Masuk Sekarang <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Page -->
+    <div class="main-page" id="mainPage">
+        <div class="container">
+            <header>
+                <div class="logo">
+                    <i class="fas fa-robot"></i>
+                    <h1>AI Helper</h1>
+                </div>
+                <p class="tagline">Tools Akademik untuk Membantu, Bukan Menggantikan</p>
+            </header>
+
+            <div class="reminder-banner">
+                <i class="fas fa-clock"></i>
+                <p>Ingatlah untuk beristirahat setiap 30-60 menit dan tetap berpikir mandiri!</p>
+            </div>
+
+            <!-- UPI Guidelines Section -->
+            <section class="ethics-section">
+                <h2 class="ethics-title">
+                    <i class="fas fa-university"></i> Aturan Penggunaan AI menurut Pedoman UPI 2024
+                </h2>
+                <p class="upi-intro">
+                    Karya tulis ilmiah di lingkungan UPI dapat berbantuan AI (Artificial Intelligence) seperti Chat GPT, DeepSeek, Claude AI, Microsoft Copilot, Gamma, Gemini, MidJourney, Perplexity AI, Grammarly, DALL-E, Quillbot, dan lain-lain dengan ketentuan sebagai berikut:
+                </p>
+                <div class="ethics-grid">
+                    <div class="ethics-card">
+                        <h3><i class="fas fa-search"></i> 1. AI sebagai Alat Pembantu Riset</h3>
+                        <p>AI dapat digunakan hanya untuk memberikan masukan mengenai konsep, namun akurasinya harus didapatkan dari sumber dan referensi yang relevan. Penulis wajib menuliskan gagasannya dengan kalimat dan paragraf sendiri dan dilarang menyalin langsung dari hasil AI.</p>
+                    </div>
+                    
+                    <div class="ethics-card">
+                        <h3><i class="fas fa-sitemap"></i> 2. AI untuk Merancang Kerangka atau Outline</h3>
+                        <p>AI dapat digunakan untuk memberi masukan mengenai kerangka atau outline dasar dari sebuah karya tulis, namun penulis wajib menuliskan kerangka gagasannya dengan kalimat dan paragraf sendiri.</p>
+                    </div>
+                    
+                    <div class="ethics-card">
+                        <h3><i class="fas fa-edit"></i> 3. AI untuk Memperbaiki Parafrase</h3>
+                        <p>Penggunaan AI untuk parafrase kalimat atau mengubah tata bahasa, namun dipastikan hasil parafrase harus sesuai dengan arti yang diinginkan serta tidak ada kemiripan berlebihan dengan sumber asli yang mengarah pada plagiarisme.</p>
+                    </div>
+                    
+                    <div class="ethics-card">
+                        <h3><i class="fas fa-language"></i> 4. AI untuk Membantu Tata Bahasa dan Struktur</h3>
+                        <p>AI digunakan untuk memberikan saran tata bahasa, tanda baca, atau struktur kalimat agar lebih jelas dan efektif, namun dilarang menyalin langsung isi yang dihasilkan AI.</p>
+                    </div>
+                    
+                    <div class="ethics-card">
+                        <h3><i class="fas fa-book"></i> 5. Memastikan Referensi dan Kutipan dari Sumber yang Terverifikasi</h3>
+                        <p>Jika AI memberikan referensi atau sumber, penulis wajib memverifikasinya terlebih dahulu, memastikan kebenarannya, dan tidak mengutip secara langsung dari jawaban AI.</p>
+                    </div>
+                    
+                    <div class="ethics-card">
+                        <h3><i class="fas fa-copy"></i> 6. Menggunakan AI sebagai Alat Pemeriksa Plagiarisme</h3>
+                        <p>Penulis dapat menggunakan alat ini untuk memastikan bahwa karya mereka bebas dari duplikasi yang tidak disengaja.</p>
+                    </div>
+                </div>
+                
+                <!-- Baris khusus untuk aturan 7 dan 8 di tengah -->
+                <div class="ethics-grid-center">
+                    <div class="ethics-card">
+                        <h3><i class="fas fa-lightbulb"></i> 7. Menjaga Orisinalitas dalam Pengembangan Argumen dan Analisis</h3>
+                        <p>AI dapat memberikan saran, tetapi ide inti, argumen, analisis, dan kesimpulan haruslah hasil pemikiran penulis. Penulis dilarang untuk menyalin langsung hasil dari AI.</p>
+                    </div>
+                    
+                    <div class="ethics-card">
+                        <h3><i class="fas fa-clipboard-check"></i> 8. Menyatakan Penggunaan AI</h3>
+                        <p>Penulis wajib menyatakan penggunaan AI dalam proses penulisan untuk menjunjung tinggi transparansi tentang bagian mana yang dibantu AI. Bukti dukungan AI berupa logbook (screenshot pada semua bagian proses berbantuan AI) yang disertakan dalam lampiran.</p>
+                    </div>
+                </div>
+                
+                <div class="upi-note">
+                    <i class="fas fa-info-circle"></i> Karya tulis yang berbantuan AI maksimal 20% untuk menjaga orisinalitas dan bebas plagiarisme.
+                </div>
+            </section>
+
+            <!-- Regulasi AI Indonesia Section -->
+            <section class="regulation-section">
+                <h2 class="ethics-title">
+                    <i class="fas fa-gavel"></i> Regulasi Penggunaan Kecerdasan Buatan (AI) di Indonesia
+                </h2>
+                <p class="regulation-intro">
+                     Indonesia saat ini belum memiliki Undang-Undang tunggal yang secara khusus dan komprehensif mengatur Kecerdasan Buatan (Artificial Intelligence/AI). Namun, terdapat beberapa kerangka hukum dan pedoman etika yang relevan dan menjadi acuan utama bagi pengembang dan pengguna AI di Tanah Air.
+                </p>
+
+                <div class="regulation-category">
+                    <h3><i class="fas fa-file-alt"></i> I. Pedoman Etika Khusus AI (Non-Mengikat)</h3>
+                    
+                    <div class="regulation-item">
+                        <h4>Surat Edaran Menteri Komunikasi dan Informatika (SE Menkominfo)</h4>
+                        <div class="regulation-details">
+                            <p><strong>Nama Regulasi:</strong> Surat Edaran Menteri Komunikasi dan Informatika Nomor 9 Tahun 2023 tentang Etika Kecerdasan Artifisial.</p>
+                            <p><strong>Fungsi Utama:</strong> Berfungsi sebagai <strong>panduan etika</strong> bagi pengembang dan pengguna AI di Indonesia. Dokumen ini bersifat <strong>sukarela</strong> dan tidak mengikat secara hukum seperti Undang-Undang.</p>
+                            <p><strong>Prinsip Dasar:</strong> Mencakup prinsip-prinsip fundamental dalam pengembangan dan penerapan AI, seperti:</p>
+                            <ul class="regulation-list">
+                                <li><strong>Kehati-hatian</strong></li>
+                                <li><strong>Akuntabilitas</strong></li>
+                                <li><strong>Transparansi</strong></li>
+                                <li><strong>Perlindungan data pribadi</strong></li>
+                            </ul>
+                        </div>
+                        <div class="regulation-source">
+                            <strong>Sumber Resmi:</strong> Dokumen resmi SE Menkominfo No. 9 Tahun 2023 dapat diakses melalui laman resmi <strong>Kementerian Komunikasi dan Informatika (Kominfo).</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="regulation-category">
+                    <h3><i class="fas fa-balance-scale"></i> II. Undang-Undang Sektoral Terkait AI</h3>
+                    <p style="margin-bottom: 20px; color: var(--light);">Penggunaan AI juga terikat pada peraturan perundang-undangan yang sudah ada, khususnya yang berkaitan dengan aktivitas digital dan perlindungan data.</p>
+                    
+                    <div class="regulation-item">
+                        <h4>1. Undang-Undang tentang Perlindungan Data Pribadi (UU PDP)</h4>
+                        <div class="regulation-details">
+                            <p><strong>Nomor Regulasi:</strong> <strong>Undang-Undang Nomor 27 Tahun 2022</strong> tentang Perlindungan Data Pribadi.</p>
+                            <p><strong>Relevansi dengan AI:</strong> UU ini sangat krusial mengingat AI sangat bergantung pada penggunaan data dalam jumlah besar. Regulasi ini menjamin hak subjek data, mengatur kewajiban <strong>pengendali</strong> dan <strong>prosesor data</strong>, serta memberikan sanksi tegas terkait penyalahgunaan data.</p>
+                        </div>
+                        <div class="regulation-source">
+                            <strong>Sumber Resmi:</strong> Dokumen lengkap <strong>UU No. 27 Tahun 2022</strong> (dapat diakses di portal Jaringan Dokumentasi dan Informasi Hukum/JDIH).
+                        </div>
+                    </div>
+
+                    <div class="regulation-item">
+                        <h4>2. Undang-Undang tentang Informasi dan Transaksi Elektronik (UU ITE)</h4>
+                        <div class="regulation-details">
+                            <p><strong>Nomor Regulasi:</strong> <strong>Undang-Undang Nomor 11 Tahun 2008</strong> sebagaimana telah diubah dengan <strong>Undang-Undang Nomor 19 Tahun 2016</strong> tentang Informasi dan Transaksi Elektronik.</p>
+                            <p><strong>Relevansi dengan AI:</strong> Mengatur seluruh kegiatan yang dilakukan di ruang siber. Mencakup ketentuan mengenai <strong>konten ilegal</strong> (misalnya, hasil <em>deepfake</em> yang melanggar hukum), <strong>transaksi elektronik</strong>, dan aspek lain yang berkaitan dengan aktivitas berbasis teknologi yang dijalankan oleh sistem AI.</p>
+                        </div>
+                        <div class="regulation-source">
+                            <strong>Sumber Resmi:</strong> Dokumen lengkap <strong>UU ITE dan perubahannya</strong> (dapat diakses di portal Jaringan Dokumentasi dan Informasi Hukum/JDIH).
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Ethics Section -->
+            <section class="ethics-section">
+                <h2 class="ethics-title">
+                    <i class="fas fa-shield-alt"></i> Pedoman Etika Penggunaan AI
+                </h2>
+                <div class="ethics-grid">
+                    <div class="ethics-card">
+                        <h3><i class="fas fa-brain"></i> AI Sebagai Asisten</h3>
+                        <p>Gunakan AI sebagai alat bantu, bukan pengganti kemampuan berpikir kritis dan analitis Anda sendiri.</p>
+                    </div>
+                    <div class="ethics-card">
+                        <h3><i class="fas fa-check-circle"></i> Validasi Hasil</h3>
+                        <p>Selalu verifikasi dan validasi informasi yang diberikan AI. Jangan menerima begitu saja tanpa pemeriksaan.</p>
+                    </div>
+                    <div class="ethics-card">
+                        <h3><i class="fas fa-user-secret"></i> Privasi Data</h3>
+                        <p>Jangan membagikan informasi pribadi atau rahasia ke platform AI. Data Anda bisa digunakan untuk training.</p>
+                    </div>
+                    <div class="ethics-card">
+                        <h3><i class="fas fa-balance-scale"></i> Tanggung Jawab Akademik</h3>
+                        <p>Anda tetap bertanggung jawab penuh atas pekerjaan yang menggunakan bantuan AI. Jangan plagiat.</p>
+                    </div>
+                    <div class="ethics-card">
+                        <h3><i class="fas fa-graduation-cap"></i> Pembelajaran Aktif</h3>
+                        <p>Gunakan AI untuk memahami konsep, bukan hanya menyelesaikan tugas. Tetaplah belajar secara aktif.</p>
+                    </div>
+                    <div class="ethics-card">
+                        <h3><i class="fas fa-handshake"></i> Integritas Akademik</h3>
+                        <p>Ikuti panduan institusi Anda mengenai penggunaan AI. Transparansi adalah kunci integritas akademik.</p>
+                    </div>
+                </div>
+            </section>
+
+            <div class="timer-container">
+                <h2>Timer Penggunaan AI</h2>
+                <div class="timer-display" id="timerDisplay">30:00</div>
+                <div class="timer-progress">
+                    <div class="timer-progress-bar" id="timerProgressBar"></div>
+                </div>
+                <p class="timer-info">Website akan otomatis tertutup ketika timer habis untuk mengingatkan waktu penggunaan AI yang sehat</p>
+            </div>
+
+            <div class="tools-grid">
+                <!-- DeepSeek -->
+                <div class="tool-card" onclick="openTool('https://www.deepseek.com/en')">
+                    <div class="tool-icon" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3>DeepSeek</h3>
+                    <p>AI pencarian dan analisis teks untuk penelitian akademik</p>
+                    <div class="tool-link">Buka Tool <i class="fas fa-external-link-alt"></i></div>
+                </div>
+
+                <!-- ChatGPT -->
+                <div class="tool-card" onclick="openTool('https://chat.openai.com')">
+                    <div class="tool-icon" style="background: linear-gradient(135deg, #00c6ff, #0072ff);">
+                        <i class="fas fa-comment"></i>
+                    </div>
+                    <h3>ChatGPT</h3>
+                    <p>Asisten AI untuk percakapan, penulisan, dan pemecahan masalah</p>
+                    <div class="tool-link">Buka Tool <i class="fas fa-external-link-alt"></i></div>
+                </div>
+
+                <!-- Grammarly -->
+                <div class="tool-card" onclick="openTool('https://www.grammarly.com')">
+                    <div class="tool-icon" style="background: linear-gradient(135deg, #15c39a, #0d8c6e);">
+                        <i class="fas fa-spell-check"></i>
+                    </div>
+                    <h3>Grammarly</h3>
+                    <p>Pemeriksa tata bahasa dan penulisan untuk esai dan laporan</p>
+                    <div class="tool-link">Buka Tool <i class="fas fa-external-link-alt"></i></div>
+                </div>
+
+                <!-- Perplexity -->
+                <div class="tool-card" onclick="openTool('https://www.perplexity.ai')">
+                    <div class="tool-icon" style="background: linear-gradient(135deg, #8e2de2, #4a00e0);">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>Perplexity</h3>
+                    <p>AI pencarian dengan referensi sumber untuk penelitian akademik</p>
+                    <div class="tool-link">Buka Tool <i class="fas fa-external-link-alt"></i></div>
+                </div>
+
+                <!-- Copilot -->
+                <div class="tool-card" onclick="openTool('https://copilot.microsoft.com')">
+                    <div class="tool-icon" style="background: linear-gradient(135deg, #0078d4, #005a9e);">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3>Microsoft Copilot</h3>
+                    <p>Asisten AI terintegrasi untuk produktivitas dan pemrograman</p>
+                    <div class="tool-link">Buka Tool <i class="fas fa-external-link-alt"></i></div>
+                </div>
+
+                <!-- GitHub Copilot -->
+                <div class="tool-card" onclick="openTool('https://github.com/features/copilot')">
+                    <div class="tool-icon" style="background: linear-gradient(135deg, #ff7e5f, #feb47b);">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <h3>GitHub Copilot</h3>
+                    <p>Asisten pemrograman untuk tugas coding dan proyek software</p>
+                    <div class="tool-link">Buka Tool <i class="fas fa-external-link-alt"></i></div>
+                </div>
+
+                <!-- Gemini -->
+                <div class="tool-card" onclick="openTool('https://gemini.google.com')">
+                    <div class="tool-icon" style="background: linear-gradient(135deg, #4285f4, #34a853);">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <h3>Gemini</h3>
+                    <p>AI multimodal untuk analisis teks, gambar, dan data</p>
+                    <div class="tool-link">Buka Tool <i class="fas fa-external-link-alt"></i></div>
+                </div>
+
+                <!-- Gamma -->
+                <div class="tool-card" onclick="openTool('https://gamma.app')">
+                    <div class="tool-icon" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+                        <div class="gamma-icon">γ</div>
+                    </div>
+                    <h3>Gamma</h3>
+                    <p>Pembuat presentasi AI untuk tugas dan presentasi akademik</p>
+                    <div class="tool-link">Buka Tool <i class="fas fa-external-link-alt"></i></div>
+                </div>
+
+                <!-- MidJourney -->
+                <div class="tool-card" onclick="openTool('https://www.midjourney.com')">
+                    <div class="tool-icon" style="background: linear-gradient(135deg, #ff6b6b, #ffa36c);">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <h3>MidJourney</h3>
+                    <p>Generator gambar AI untuk ilustrasi dan materi visual</p>
+                    <div class="tool-link">Buka Tool <i class="fas fa-external-link-alt"></i></div>
+                </div>
+                
+                <!-- Claude AI -->
+                <div class="tool-card" onclick="openTool('https://claude.ai/new')">
+                    <div class="tool-icon" style="background: linear-gradient(135deg, #ea4335, #fbbc05);">
+                        <i class="fas fa-cloud"></i>
+                    </div>
+                    <h3>Claude AI</h3>
+                    <p>Layanan AI dan machine learning untuk analisis data kompleks</p>
+                    <div class="tool-link">Buka Tool <i class="fas fa-external-link-alt"></i></div>
+                </div>
+
+                <!-- DALL-E -->
+                <div class="tool-card" onclick="openTool('https://openai.com/dall-e-3')">
+                    <div class="tool-icon" style="background: linear-gradient(135deg, #8B5CF6, #EC4899);">
+                        <i class="fas fa-paint-brush"></i>
+                    </div>
+                    <h3>DALL-E</h3>
+                    <p>Generator gambar AI dari teks untuk ilustrasi dan desain</p>
+                    <div class="tool-link">Buka Tool <i class="fas fa-external-link-alt"></i></div>
+                </div>
+
+                <!-- Notion AI -->
+                <div class="tool-card" onclick="openTool('https://www.notion.so/product/ai')">
+                    <div class="tool-icon" style="background: linear-gradient(135deg, #000000, #373737);">
+                        <i class="fas fa-sticky-note"></i>
+                    </div>
+                    <h3>Notion AI</h3>
+                    <p>Asisten AI terintegrasi untuk produktivitas dan manajemen proyek</p>
+                    <div class="tool-link">Buka Tool <i class="fas fa-external-link-alt"></i></div>
+                </div>
+            </div>
+
+            <!-- Illustration Credit -->
+            <div class="illustration-credit">
+                <h3>
+                    <i class="fas fa-palette"></i> Illustration by:
+                </h3>
+               
+                <div class="creators">
+                    <div class="creator" onclick="showPhoto('R Mohammad Fikry Mushoffa S', 'Ketua', 'https://i.ibb.co.com/KjkFsVPs/fikry.jpg',  'Pemimpin Tim')">
+                        <div class="creator-icon">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <span class="creator-name">R Mohammad Fikry Mushoffa S</span>
+                    </div>
+                    <div class="creator" onclick="showPhoto('Jaka Permana Herawan', 'Anggota', 'https://i.ibb.co.com/67KHLCMf/Whats-App-Image-2025-11-04-at-13-07-24-97ab4a78.jpg' , 'Pembuat ilustrasi')">
+                        <div class="creator-icon">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <span class="creator-name">Jaka Permana Herawan</span>
+                    </div>
+                    <div class="creator" onclick="showPhoto('Adinda fildzah Hasya', 'Anggota', 'https://i.ibb.co.com/wZsLqYBP/dinda.jpg', 'Pembuat ilustrasi')">
+                        <div class="creator-icon">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <span class="creator-name">Adinda fildzah Hasya</span>
+                    </div>
+                    <div class="creator" onclick="showPhoto('Jillena Surbakti', 'Anggota', 'https://i.ibb.co.com/hxKK4G5g/jilena.png', 'Pembuat ilustrasi')">
+                        <div class="creator-icon">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <span class="creator-name">Jillena Surbakti</span>
+                    </div>
+                    <div class="creator" onclick="showPhoto('Sardar', 'Anggota', 'https://i.ibb.co.com/sp1yK1qr/IMG-2214.jpg', 'Pembuat ilustrasi')">
+                        <div class="creator-icon">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <span class="creator-name">Sardar</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>AI Helper &copy; 2025 - Gunakan AI dengan Bijak untuk Pengembangan Diri</p>
+        </footer>
+    </div>
+
+    <!-- Exit Overlay -->
+    <div class="exit-overlay" id="exitOverlay">
+        <div class="exit-message">
+            <div class="exit-icon">
+                <i class="fas fa-hourglass-end"></i>
+            </div>
+            <h2 class="exit-title">Waktu Penggunaan AI Habis!</h2>
+            <p class="exit-text">
+                Sudah 30 menit menggunakan AI. Saatnya istirahat dan mencoba menyelesaikan masalah dengan kemampuan sendiri. 
+                Website akan tertutup otomatis dalam:
+            </p>
+            <div class="exit-countdown" id="exitCountdown">30</div>
+            <button class="btn" onclick="closeWebsite()">
+                Tutup Sekarang <i class="fas fa-door-open"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Photo Modal -->
+    <div class="photo-modal" id="photoModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closePhoto()">&times;</span>
+            <img id="modalPhoto" class="modal-photo" src="" alt="">
+            <div class="modal-name" id="modalName"></div>
+            <div class="modal-role" id="modalRole"></div>
+            <div class="modal-bio" id="modalBio"></div>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const warningPage = document.getElementById('warningPage');
+        const mainPage = document.getElementById('mainPage');
+        const countdownElement = document.getElementById('countdown');
+        const skipBtn = document.getElementById('skipBtn');
+        const timerDisplay = document.getElementById('timerDisplay');
+        const timerProgressBar = document.getElementById('timerProgressBar');
+        const exitOverlay = document.getElementById('exitOverlay');
+        const exitCountdown = document.getElementById('exitCountdown');
+        const photoModal = document.getElementById('photoModal');
+        const modalPhoto = document.getElementById('modalPhoto');
+        const modalName = document.getElementById('modalName');
+        const modalRole = document.getElementById('modalRole');
+        const modalBio = document.getElementById('modalBio');
+        const binaryCode = document.getElementById('binaryCode');
+
+        // Create binary code animation
+        function createBinaryCode() {
+            for (let i = 0; i < 50; i++) {
+                const digit = document.createElement('div');
+                digit.className = 'binary-digit';
+                digit.textContent = Math.random() > 0.5 ? '1' : '0';
+                digit.style.left = `${Math.random() * 100}%`;
+                digit.style.animationDuration = `${10 + Math.random() * 20}s`;
+                digit.style.animationDelay = `${Math.random() * 5}s`;
+                binaryCode.appendChild(digit);
+            }
+        }
+
+        // Timer Variables
+        let timerInterval;
+        let timeLeft = 30*60; // 30 minutes in seconds
+        let totalTime = 30*60;
+        let isRunning = false;
+
+        // Auto-redirect countdown
+        let countdown = 60;
+        const countdownInterval = setInterval(() => {
+            countdown--;
+            countdownElement.textContent = countdown;
+            
+            if (countdown <= 0) {
+                clearInterval(countdownInterval);
+                goToMainPage();
+            }
+        }, 1000);
+
+        // Skip button functionality
+        skipBtn.addEventListener('click', function() {
+            clearInterval(countdownInterval);
+            goToMainPage();
+        });
+
+        // Function to go to main page
+        function goToMainPage() {
+            warningPage.style.display = 'none';
+            mainPage.style.display = 'flex';
+            startTimer(); // Timer langsung jalan otomatis
+        }
+
+        // Open AI Tool in New Tab
+        function openTool(url) {
+            window.open(url, '_blank');
+        }
+
+        // Show Photo Modal
+        function showPhoto(name, role, photoUrl, bio) {
+            modalPhoto.src = photoUrl;
+            modalName.textContent = name;
+            modalRole.textContent = role;
+            modalBio.textContent = bio;
+            photoModal.style.display = 'flex';
+        }
+
+        // Close Photo Modal
+        function closePhoto() {
+            photoModal.style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        photoModal.addEventListener('click', function(e) {
+            if (e.target === photoModal) {
+                closePhoto();
+            }
+        });
+
+        // Close modal with ESC key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && photoModal.style.display === 'flex') {
+                closePhoto();
+            }
+        });
+
+        // Timer Functions
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            // Update progress bar
+            const progress = (timeLeft / totalTime) * 100;
+            timerProgressBar.style.width = `${progress}%`;
+            
+            // Change color based on time left
+            if (progress < 20) {
+                timerProgressBar.style.background = 'linear-gradient(to right, var(--danger), var(--warning))';
+            } else if (progress < 50) {
+                timerProgressBar.style.background = 'linear-gradient(to right, var(--warning), var(--accent))';
+            } else {
+                timerProgressBar.style.background = 'linear-gradient(to right, var(--success), var(--accent))';
+            }
+        }
+
+        function startTimer() {
+            if (isRunning) return;
+            
+            isRunning = true;
+            timerInterval = setInterval(function() {
+                timeLeft--;
+                updateTimerDisplay();
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    isRunning = false;
+                    showExitOverlay();
+                }
+            }, 1000);
+        }
+
+        function showExitOverlay() {
+            // Show exit overlay
+            exitOverlay.style.display = 'flex';
+            
+            // Start exit countdown
+            let exitTimer = 30;
+            const exitInterval = setInterval(() => {
+                exitTimer--;
+                exitCountdown.textContent = exitTimer;
+                
+                if (exitTimer <= 0) {
+                    clearInterval(exitInterval);
+                    closeWebsite();
+                }
+            }, 1000);
+        }
+
+        function closeWebsite() {
+            // Try different methods to close the website
+            try {
+                // Method 1: Close window (works for popups)
+                if (window.opener) {
+                    window.close();
+                }
+                // Method 2: Redirect to about:blank
+                else {
+                    window.location.href = 'about:blank';
+                }
+            } catch (e) {
+                // Method 3: Show message if can't close
+                alert('Waktu penggunaan AI sudah habis! Silakan tutup tab ini secara manual dan istirahat sejenak.');
+            }
+        }
+
+        // Initialize Timer Display
+        updateTimerDisplay();
+
+        // Create binary code animation
+        createBinaryCode();
+
+        // Auto-reminder every 15 minutes (setengah waktu)
+        setInterval(function() {
+            if (mainPage.style.display === 'flex' && timeLeft > 0) {
+                const reminder = document.createElement('div');
+                reminder.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background: var(--warning);
+                    color: var(--dark);
+                    padding: 15px 25px;
+                    border-radius: 10px;
+                    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                    z-index: 1000;
+                    text-align: center;
+                    animation: slideIn 0.5s ease-out;
+                `;
+                
+                reminder.innerHTML = `
+                    <p><i class="fas fa-brain"></i> Ingatlah untuk beristirahat sejenak dan berpikir mandiri!</p>
+                `;
+                
+                document.body.appendChild(reminder);
+                
+                // Remove reminder after 5 seconds
+                setTimeout(() => {
+                    if (reminder.parentElement) {
+                        reminder.remove();
+                    }
+                }, 5000);
+            }
+        }, 15 * 60 * 1000); // 15 minutes
+    </script>
+</body>
+</html>
