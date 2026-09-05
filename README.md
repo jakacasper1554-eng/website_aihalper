@@ -43,4 +43,4 @@ Karya tulis ilmiah di lingkungan UPI diperbolehkan menggunakan bantuan AI dengan
 
 1. **Clone repository ini:**
    ```bash
-   git clone [https://github.com/USERNAME/NAMA-REPOSITORY.git](https://github.com/USERNAME/NAMA-REPOSITORY.git)
+   git clone [https://github.com/jakacasper1554-eng/website_aihalper.git]
