@@ -1,4 +1,4 @@
-# 🤖 AI Helper - Tools Akademik & Pedoman Etika AI
+# 🤖 AI Helper - Tools Akademik 
 
 **AI Helper** adalah portal web interaktif yang dirancang untuk membantu mahasiswa dan akademisi memanfaatkan berbagai alat Kecerdasan Buatan (*Artificial Intelligence*) secara bijak, bertanggung jawab, dan sesuai dengan etika serta regulasi hukum yang berlaku.
 
